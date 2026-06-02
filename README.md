@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بۆ تۆ... ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0010, #4d0026);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ستایلی کارتە سەرەکییەکە */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px 30px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+            position: relative;
+        }
+
+        .heart-icon {
+            font-size: 70px;
+            animation: beat 1.2s infinite;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        h1 {
+            font-size: 26px;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(255, 77, 141, 0.5);
+        }
+
+        p {
+            font-size: 18px;
+            color: #ffb3d1;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* ستایلی دوگمەکان */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 50px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .yes-btn {
+            background: linear-gradient(45deg, #ff4d8d, #ff1a75);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 141, 0.4);
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 77, 141, 0.6);
+        }
+
+        .no-btn {
+            background-color: #333;
+            color: #bbb;
+            position: absolute;
+            transition: all 0.1s ease;
+        }
+
+        /* بارینی دڵ و گوڵ */
+        .falling-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .element {
+            position: absolute;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="falling-elements" id="fallingContainer"></div>
+
+    <div class="card">
+        <div class="heart-icon">❤️</div>
+        <h1>تۆ تایبەتیترین کەسی لای من!</h1>
+        <p>لەو ڕۆژەوەی تۆم ناسیوە، جیهانم زۆر جوانتر بووە. ڕێگام پێدەدەیت ببمە هاوبەشی ژیانت و زیاتر خۆشم بوێیت؟</p>
+        
+        <div class="buttons-container">
+            <button class="yes-btn" onclick="accepted()">بەڵێ 😍</button>
+            <button class="no-btn" id="noBtn">نەخێر 😢</button>
+        </div>
+    </div>
+
+    <script>
+        // دروستکردنی بارانی دڵ و گوڵ
+        const container = document.getElementById("fallingContainer");
+        const items = ["❤️", "💖", "🌹", "🌸", "✨", "💕"];
+        
+        for (let i = 0; i < 30; i++) {
+            const element = document.createElement("div");
+            element.classList.add("element");
+            element.innerHTML = items[Math.floor(Math.random() * items.length)];
+            
+            element.style.left = Math.random() * 100 + "vw";
+            element.style.animationDuration = (4 + Math.random() * 6) + "s";
+            element.style.fontSize = (16 + Math.random() * 20) + "px";
+            element.style.animationDelay = (Math.random() * 5) + "s";
+            
+            container.appendChild(element);
+        }
+
+        // ڕاکردنی دوگمەی نەخێر
+        const noBtn = document.getElementById("noBtn");
+        
+        function moveNoButton() {
+            // ئەوەندە فەزایە دەهێڵینەوە کە دوگمەکە لە شاشە دەرنەچێت
+            const padding = 100;
+            const maxX = window.innerWidth - padding;
+            const maxY = window.innerHeight - padding;
+            
+            // شوێنێکی هەڕەمەکی لەسەر تەواوی شاشەکە
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + "px";
+            noBtn.style.top = randomY + "px";
+        }
+
+        // بۆ کۆمپیوتەر کاتێک ماوسی لێ نزیک دەبێتەوە
+        noBtn.addEventListener("mouseover", moveNoButton);
+        // بۆ مۆبایل کاتێک دەستی لێدەدەن
+        noBtn.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // کاتێک کلیک لەسەر بەڵێ دەکات
+        function accepted() {
+            // گۆڕینی ناوەڕۆکی کارتەکە بە نامەیەکی جوانتر
+            document.querySelector(".card").innerHTML = `
+                <div class="heart-icon" style="font-size: 85px;">💖👑</div>
+                <h1 style="color: #ff4d8d;">تۆ باشترین بڕیارتدا!</h1>
+                <p style="font-size: 20px; color: white;">بەڵێن دەدەم هەمیشە دڵخۆشت بکەم و لە هەموو کەس زیاتر گرنگیت پێبدەم. سوپاس کە هەی لای من! 🥰💍</p>
+            `;
+            
+            // زیادکردنی خێرایی بارینی دڵەکان وەک ئاهەنگگێڕان
+            document.querySelectorAll(".element").forEach(el => {
+                el.style.animationDuration = (1 + Math.random() * 2) + "s";
+            });
+        }
+    </script>
+
+</body>
+</ht
